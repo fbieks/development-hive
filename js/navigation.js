@@ -44,3 +44,35 @@ window.addEventListener('resize', function() {
     }
 
 });
+
+
+
+//highlight current nav title
+
+window.addEventListener('DOMContentLoaded', () => {
+    let links = document.querySelectorAll('.mobile-nav li a');
+  
+    function highlightCurrent() {
+      let currentLink = document.querySelector('.mobile-nav li a#current');
+      if (currentLink) {
+        currentLink.removeAttribute('id');
+      }
+  
+      for (let i = 0; i < links.length; i++) {
+        if (links[i].href === document.URL) {
+          links[i].id = 'current';
+          break;
+        }
+      }
+    }
+    
+    // Initial highlighting on page load
+    highlightCurrent();
+  
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        highlightCurrent();
+      });
+    });
+  });
+  
