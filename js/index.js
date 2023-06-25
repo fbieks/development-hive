@@ -237,15 +237,62 @@ function wp_output_single( data ) {
 			// Output Blog posts
 			pageContent += `
 				<article id="post-${post.id}">
-				<figure class="featured-image"></figure>
-                <h2><a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">${post.title.rendered}</a></h2>
-				<p>${post.content.rendered}</p>
-				<p>${post.acf.general_description}</p>
+                <h2>
+                <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
+                ${post.title.rendered}
+                </a>
+                </h2>
 			`;
-	
+
+            let tech= [];
+            let teamTech= [];
+            let designTech= [];
+            let techUsed = [];
+            
+
+            if ((post.acf.tech_used).length !== 0){
+                tech = post.acf.tech_used;
+
+                techUsed = tech;
+            }
+            if ((post.acf.design_tech_used).length !== 0){
+                designTech = post.acf.design_tech_used;
+
+                if ( techUsed.length === 0 ){
+                techUsed = designTech;
+                }
+                else
+                techUsed = techUsed.concat(designTech);
+            }
+            if ((post.acf.team_tech_used).length !== 0){
+                teamTech = post.acf.team_tech_used;
+
+                if ( techUsed.length === 0 ){
+                    techUsed = designTech;
+                    }
+                else
+                techUsed = techUsed.concat(teamTech);
+            }
+
+
+            if (techUsed.length !== 0 ){
+
+                pageContent += `<ul class='tech-used' > `;
+                
+                for (let i = 0; i < (techUsed.length) ; i++) {
+
+                    pageContent += `<li> ${techUsed[i]}</li>`;
+                }
+
+                pageContent += `</ul> `;
+            }
+
 			// Output the Featured Image
+            pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
 			 output_featured_image( post );
-			 pageContent += '</article>';
+
+             pageContent += '</a></article>';
+             
 	
 		}
 
