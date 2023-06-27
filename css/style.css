@@ -296,7 +296,7 @@ a:focus {
 /* Landing Page */
 
 .landing-content {
-	height: 100vh;
+	min-height: 100vh;
 	width: 100%;
 	background: var(--background-yellow);;
 	display: flex;
@@ -437,12 +437,12 @@ a:focus {
 	margin: 0 0 0.5rem;
 }
 
-article a {
+.work-wrapper article a {
 	width: fit-content;
 	height: fit-content;
 }
 
-article {
+.work-wrapper article {
 	display: flex;
     flex-direction: column;
     justify-content: center;

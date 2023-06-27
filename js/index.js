@@ -3,7 +3,7 @@ const mainEl  = document.querySelector('main#main');
 const loading = document.getElementById('loading');
 const apiURL  = 'https://developmenthive.com/portfolio/wp-json/wp/v2/';
 let pageContent = '';
-//we will be changing above to OUR mindset site
+
 
 // Run REST query if back/forward buttons used
 window.addEventListener('popstate', function(e) {
@@ -96,7 +96,7 @@ function wp_output_single( data ) {
 	// Home Page Content
 	if ( data.id == 38 ) {
 
-		mainEl.innerHTML = `
+		pageContent = `
 
 		<div class='landing-wrapper'>
 		<div class='landing-content'>
@@ -104,10 +104,56 @@ function wp_output_single( data ) {
 		</h2>
 		<p >${data.acf.created_by}
 		</p>
-		</div>
-		</div>
-		`;
+		</div>`;
 
+			if (data.acf.main_projects) {
+				const relationshipField = data.acf.main_projects;
+		  
+				const fetchRequests = relationshipField.map((post) => {
+					return fetch(apiURL + 'feb-work/' + post + '?_embed')
+					  .then((response) => response.json())
+					  .then((post) => {
+						pageContent +=  `
+					  <article id="post-${post.id}">
+					  <h2>
+					  <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
+					  ${post.title.rendered}
+					  </a>
+					  </h2>`;
+
+					// Output the Featured Image
+					pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
+					output_featured_image( post );
+		
+					pageContent += '</a></article>';
+
+					  console.log(pageContent);
+					})
+					.catch((error) => {
+					  console.error(error);
+					});
+				});
+			
+
+			console.log(pageContent);
+
+     // Wait for all fetch requests to complete
+	 Promise.all(fetchRequests)
+	 .then(() => {
+	   pageContent += `</div>`;
+	   mainEl.innerHTML = pageContent;
+	   update_event_listener();
+	 })
+	 .catch((error) => {
+	   console.error(error);
+	 });
+
+	}
+	else {
+		pageContent += `</div>`;
+		mainEl.innerHTML = pageContent;
+		update_event_listener();
+	  }
 
 	}
 
@@ -116,7 +162,7 @@ function wp_output_single( data ) {
 
 		console.log( data );
 
-		mainEl.innerHTML = `
+		pageContent = `
 		<p>${data.acf.contact_intro}</p>
 		<p>${data.acf.contact_info}</p>
 		
@@ -126,7 +172,9 @@ function wp_output_single( data ) {
 		</a>
 		`;
 
+		mainEl.innerHTML = pageContent;
 
+		update_event_listener();
 	}
 	
 	// About Page Link
@@ -151,6 +199,8 @@ function wp_output_single( data ) {
 `;
 
 		mainEl.innerHTML = pageContent;
+
+		update_event_listener();
 
 	}
 		// let concerts = data.acf.concert_list;
