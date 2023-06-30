@@ -51,7 +51,7 @@ function wp_rest_api_call( e ) {
 	 console.log(data);
 
 
-			// Run the proper JS function based on the endpoint
+			// Run the proper JS functkion based on the endpoint
 			if ( endpoint.includes('pages/') || endpoint.includes('posts/') ) {
 				wp_output_single(data);
 			}
@@ -96,15 +96,29 @@ function wp_output_single( data ) {
 	// Home Page Content
 	if ( data.id == 38 ) {
 
+		// scroll icon: https://codepen.io/Web_Cifar/pen/WNwvOaE
+
 		pageContent = `
 
-		<div class='landing-wrapper'>
-		<div class='landing-content'>
-		<h2 >${data.acf.website_intro}
-		</h2>
-		<p >${data.acf.created_by}
-		</p>
-		</div>`;
+		<div class='landing-wrapper page-wrapper'>
+		<section id="sec-1">
+			<div class='landing-content container'>
+			<div class='landing-title'>
+				<h1 >${data.acf.website_intro}
+				</h1>
+				<p >${data.acf.created_by}
+				</p>
+				</div>
+				<div class="explore-wrapper fade-in">
+					<h3>Explore</h3>
+					<a href="#sec-2" class="explore">
+					<div class="scroll-down"></div>
+	  				</a>
+				</div>
+			</div>
+  		</section>
+		<section id="sec-2">
+		  <div class="container">`;
 
 			if (data.acf.main_projects) {
 				const relationshipField = data.acf.main_projects;
@@ -113,25 +127,85 @@ function wp_output_single( data ) {
 					return fetch(apiURL + 'feb-work/' + post + '?_embed')
 					  .then((response) => response.json())
 					  .then((post) => {
-						pageContent +=  `
-					  <article id="post-${post.id}">
-					  <h2>
-					  <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
-					  ${post.title.rendered}
-					  </a>
-					  </h2>`;
 
-					// Output the Featured Image
-					pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
-					output_featured_image( post );
+						pageContent += '<div class="all-work-wrapper">';
+	
+
+					
+							// Output Blog posts
+							pageContent += `
+								<article id="post-${post.id}">
+								<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
+								<h2>
+								${post.title.rendered}
+								</h2>
+							`;
+				
+							let tech= [];
+							let designTech= [];
+							let techUsed = [];
+							
+				
+							if ((post.acf.tech_used).length !== 0){
+								tech = post.acf.tech_used;
+				
+								techUsed = tech;
+							}
+							if ((post.acf.design_tech_used).length !== 0){
+								designTech = post.acf.design_tech_used;
+				
+								if ( techUsed.length === 0 ){
+								techUsed = designTech;
+								}
+								else
+								techUsed = techUsed.concat(designTech);
+							}
+				
+				
+							if (techUsed.length !== 0 ){
+				
+								pageContent += `<ul class='tech-used' > `;
+								
+								for (let i = 0; i < (techUsed.length) ; i++) {
+				
+									pageContent += `<li> ${techUsed[i]}</li>`;
+								}
+				
+								pageContent += `</ul> `;
+							}
+				
+							// Output the Featured Image
+							// pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
+							 output_featured_image( post );
+				
+							 pageContent += '</a></article>';
+							 
+					
+						
+				
+						pageContent += '<div/>';
+				
+					
+					// 	pageContent +=  `
+					//   <article id="post-${post.id}">
+					//   <h2>
+					//   <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
+					//   ${post.title.rendered}
+					//   </a>
+					//   </h2>`;
+
+					// // Output the Featured Image
+					// pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
+					// output_featured_image( post );
 		
-					pageContent += '</a></article>';
-
-					  console.log(pageContent);
-					})
-					.catch((error) => {
-					  console.error(error);
-					});
+					// pageContent += '</a></article>';
+					
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+				
+					
 				});
 			
 
@@ -140,19 +214,16 @@ function wp_output_single( data ) {
      // Wait for all fetch requests to complete
 	 Promise.all(fetchRequests)
 	 .then(() => {
-	   pageContent += `</div>`;
+	   pageContent += `  </div>
+	   </section>
+	   </div>`;
 	   mainEl.innerHTML = pageContent;
-	   update_event_listener();
 	 })
-	 .catch((error) => {
-	   console.error(error);
-	 });
 
 	}
 	else {
 		pageContent += `</div>`;
 		mainEl.innerHTML = pageContent;
-		update_event_listener();
 	  }
 
 	}
@@ -183,13 +254,13 @@ function wp_output_single( data ) {
 		console.log(data);
 
 		pageContent = `
-		<div class="about-wrapper">
+		<div class="about-wrapper page-wrapper">
 		<div class="about-text">
-		<h2>${data.acf.about_intro}</h2>
+		<h1>${data.acf.about_intro}</h1>
 		<p>${data.acf.description}</p>
+		<div class="insta-wrapper">${data.content.rendered}</div>
 		</div>
 	`;
-
 
 		
 	output_featured_image( data );
@@ -271,15 +342,12 @@ function wp_output_single( data ) {
 
 
 
-// Output Work posts
-// *** ADD YOUR CODE HERE ***
+// Output ALL Work posts
  function wp_output_work(data) {
-		// Use to see all available data
+
 	 console.log(data);
 
-
-		// Add Page Title
-		pageContent = '<div class="work-wrapper" ><h1>Work</h1>';
+		pageContent = '<div class="work-wrapper page-wrapper" ><div class="top-page-title"><h1>Work</h1></div><div class="all-work-wrapper">';
 	
 		// Output Posts
 		for ( let post of data ) {
@@ -287,15 +355,13 @@ function wp_output_single( data ) {
 			// Output Blog posts
 			pageContent += `
 				<article id="post-${post.id}">
-                <h2>
                 <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
+                <h2>
                 ${post.title.rendered}
-                </a>
                 </h2>
 			`;
 
             let tech= [];
-            let teamTech= [];
             let designTech= [];
             let techUsed = [];
             
@@ -305,6 +371,7 @@ function wp_output_single( data ) {
 
                 techUsed = tech;
             }
+
             if ((post.acf.design_tech_used).length !== 0){
                 designTech = post.acf.design_tech_used;
 
@@ -313,15 +380,6 @@ function wp_output_single( data ) {
                 }
                 else
                 techUsed = techUsed.concat(designTech);
-            }
-            if ((post.acf.team_tech_used).length !== 0){
-                teamTech = post.acf.team_tech_used;
-
-                if ( techUsed.length === 0 ){
-                    techUsed = designTech;
-                    }
-                else
-                techUsed = techUsed.concat(teamTech);
             }
 
 
@@ -338,7 +396,7 @@ function wp_output_single( data ) {
             }
 
 			// Output the Featured Image
-            pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
+            // pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
 			 output_featured_image( post );
 
              pageContent += '</a></article>';
@@ -346,7 +404,7 @@ function wp_output_single( data ) {
 	
 		}
 
-		pageContent += '<div />';
+		pageContent += '<div /><div />';
 
 
 		mainEl.innerHTML = pageContent;
@@ -357,30 +415,71 @@ function wp_output_single( data ) {
  }
 
 
-// Output all service posts
+// Output SINGLE work
 function wp_output_single_work( data ) {
 
 	// Use to see all available data
 	 console.log(data);
 
-	// Output Posts
+	pageContent = `
+		<article id="post-${data.id}">
+		<h2><a href="#${data.slug}" data-endpoint="posts/${data.id}?_embed" data-postid="${data.id}">${data.title.rendered}</a></h2>
+	`;
+
+	// Output the Featured Image
+	pageContent += `<a href="#${data.slug}" data-endpoint="feb-work/${data.id}?_embed" data-postid="${data.id}">`;
+	output_featured_image( data );
+
+	pageContent += `</a>${data.acf.general_description}`;
+
+	let tech= [];
+	let teamTech= [];
+	let designTech= [];
+	
+	pageContent += '<div class="all-tools-wrapper" >';
+
+	if ((data.acf.tech_used).length !== 0){
+
+		tech = data.acf.tech_used;
+
+		pageContent += `<div class="tools-wrapper" id="tech-tools-wrapper">
+						<ul class='tech-tools-used'> `;
+		
+		for (let i = 0; i < (tech.length) ; i++) {
+			pageContent += `<li class="tech-tools-item" id="#${tech[i]}" > ${tech[i]}</li>`;
+		}
+		pageContent += `</ul></div> `;
+	}
+
+	if ((data.acf.design_tech_used).length !== 0){
+		designTech = data.acf.design_tech_used;
+
+		pageContent += `<div class="tools-wrapper" id="design-tools-wrapper">
+		<ul class='design-tools-used' > `;
+
+		for (let i = 0; i < (designTech.length) ; i++) {
+		pageContent += `<li class="design-tools-item" id="#${tech[i]}" > ${designTech[i]}</li>`;
+		}
+		pageContent += `</ul></div> `;
+	}
+
+	if ((data.acf.team_tech_used).length !== 0){
+		teamTech = data.acf.team_tech_used;
+
+		pageContent += `<div class="tools-wrapper" id="team-tools-wrapper">
+		<ul class='team-tools-used' > `;
+
+		for (let i = 0; i < (teamTech.length) ; i++) {
+		pageContent += `<li class="team-tools-item" id="#${tech[i]}"  > ${teamTech[i]}</li>`;
+		}
+		pageContent += `</ul></div> `;
+	}
+
+	pageContent+= '</div></article>';
+
+	mainEl.innerHTML = pageContent;
 
 
-		// Output Blog posts
-		mainEl.innerHTML = `
-			<article id="post-${data.id}">
-			<figure class="featured-image"></figure>
-			<h2><a href="#${data.slug}" data-endpoint="posts/${data.id}?_embed" data-postid="${data.id}">${data.title.rendered}</a></h2>
-				${data.acf.general_description}
-			</article>
-		`;
-
-
-		output_featured_image( data );
-
-
-
-	// Run event listener function
 	update_event_listener();
 
 };
@@ -432,24 +531,14 @@ function output_featured_image( data ) {
 // Add click event listeners
 function update_event_listener() {
 	let links = document.querySelectorAll('a[href^="#"]');
-	for (var i = 0; i < links.length; i++) {
+	for (let i = 0; i < links.length; i++) {
 	    links[i].addEventListener('click', wp_rest_api_call, false);
 	}
 };
 
 
-// Generate a random element (About Page)
-function generateRandomElement() {
-	var randomIndex = Math.floor(Math.random() * concert_array.length);
-	console.log(randomIndex);
-	var randomElement = concert_array[randomIndex];
-	document.getElementById("random-element").textContent = randomElement;
-  }
-
 
 // Run event listener function
 update_event_listener();
 
-// Load Blog Posts on initial page load
-let homePage = document.querySelector('a[href="#landing"]');
-homePage.click();
+
