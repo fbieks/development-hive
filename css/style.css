@@ -90,37 +90,42 @@ html {
 }
 
 /* Tools */
-.tech-tools-used,
-.design-tools-used,
-.team-tools-used {
+.tools-used  {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	display: flex;
+    flex-wrap: wrap;
+	justify-content: center;
 }
 
-.tech-tools-used li,
-.design-tools-used li,
-.team-tools-used li {
+.tools-used li{
 	margin: 0 1rem 0 0;
     padding: 0.5rem;
     width: fit-content;
-    border: 2px solid #000000;
     border-radius: 16px;
+	margin: 0 0.5rem 0.5rem;
+	padding: 0.5rem 1rem;
 }
 
 /* tech tools */
-.tech-tools-used li {
+.tech-tools-item {
     background: #79d8ff;
+	box-shadow: -5px 3px #2fc3ff;
 }
 
 /* design tools */
-.design-tools-used li {
+.design-tools-item {
     background: #ff7f7f;
+	box-shadow: -5px 3px #fd6060;
+
 }
 
 /* team tools */
-.team-tools-used li {
+.team-tools-item {
     background: #7fff9f;
+	box-shadow: -5px 3px #4df979;
+
 }
 
 
@@ -665,9 +670,8 @@ section {
     background: rgb(0,0,0);
     background: linear-gradient(180deg, rgba(0,0,0,0) 2%, rgba(0,0,0,0.6927374301675977) 24%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%, rgba(0,0,0,1) 100%);
     padding: 1rem 0 1rem;
-	border-radius: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .tech-used li{
@@ -675,8 +679,48 @@ section {
     background: #ffd40c;
     padding: 0.5rem;
 	border-radius: 5px;
-
 }
+
+/* SINGLE work page */
+
+.single-work-title{
+	height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	margin: 1rem 0;
+}
+
+.all-tools-wrapper .tools-used{
+	padding: 1rem;
+	/* background: linear-gradient(0deg, rgba(0,0,0,0) 2%, rgba(0,0,0,0.6927374301675977) 24%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%, rgba(0,0,0,1) 100%); */
+	background: #000;
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.single-work-wrapper{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.work-content-wrapper
+
+.single-work-title h1{
+	font-size: 1.6rem;
+}
+
+.image-and-tech-wrapper {
+	/* width: 90%; */
+}
+
+.image-and-tech-wrapper img{
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+
 
 /* Footer
 --------------------------------------------- */

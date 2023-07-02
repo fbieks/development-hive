@@ -422,60 +422,53 @@ function wp_output_single_work( data ) {
 	 console.log(data);
 
 	pageContent = `
-		<article id="post-${data.id}">
-		<h2><a href="#${data.slug}" data-endpoint="posts/${data.id}?_embed" data-postid="${data.id}">${data.title.rendered}</a></h2>
+		<article  class="single-work-wrapper" id="post-${data.id}">
+		<div class="single-work-title">
+		<h1>${data.title.rendered}</h1>
+		</div>
+		<div class="image-and-tech-wrapper">
+		<div class="work-content-wrapper">
 	`;
 
 	// Output the Featured Image
-	pageContent += `<a href="#${data.slug}" data-endpoint="feb-work/${data.id}?_embed" data-postid="${data.id}">`;
 	output_featured_image( data );
-
-	pageContent += `</a>${data.acf.general_description}`;
 
 	let tech= [];
 	let teamTech= [];
 	let designTech= [];
 	
-	pageContent += '<div class="all-tools-wrapper" >';
+	pageContent += '<div class="all-tools-wrapper" ><ul class="tools-used"> ';
 
 	if ((data.acf.tech_used).length !== 0){
 
 		tech = data.acf.tech_used;
 
-		pageContent += `<div class="tools-wrapper" id="tech-tools-wrapper">
-						<ul class='tech-tools-used'> `;
-		
 		for (let i = 0; i < (tech.length) ; i++) {
 			pageContent += `<li class="tech-tools-item" id="#${tech[i]}" > ${tech[i]}</li>`;
 		}
-		pageContent += `</ul></div> `;
 	}
 
 	if ((data.acf.design_tech_used).length !== 0){
-		designTech = data.acf.design_tech_used;
 
-		pageContent += `<div class="tools-wrapper" id="design-tools-wrapper">
-		<ul class='design-tools-used' > `;
+		designTech = data.acf.design_tech_used;
 
 		for (let i = 0; i < (designTech.length) ; i++) {
 		pageContent += `<li class="design-tools-item" id="#${tech[i]}" > ${designTech[i]}</li>`;
 		}
-		pageContent += `</ul></div> `;
 	}
 
 	if ((data.acf.team_tech_used).length !== 0){
 		teamTech = data.acf.team_tech_used;
 
-		pageContent += `<div class="tools-wrapper" id="team-tools-wrapper">
-		<ul class='team-tools-used' > `;
-
 		for (let i = 0; i < (teamTech.length) ; i++) {
 		pageContent += `<li class="team-tools-item" id="#${tech[i]}"  > ${teamTech[i]}</li>`;
 		}
-		pageContent += `</ul></div> `;
 	}
 
-	pageContent+= '</div></article>';
+	pageContent+= '</ul></div></div>';
+
+	pageContent += `</a><p>${data.acf.general_description}</p></div></article>`;
+
 
 	mainEl.innerHTML = pageContent;
 
