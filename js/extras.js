@@ -5,13 +5,22 @@ homePage.click();
 // landing / home page
 // Make scroll btn disappear
 window.addEventListener('scroll', function() {
-    let myDiv = document.querySelector('.scroll-down');
+    let scrollDownBtn = document.querySelector('.explore');
+    let exploreTitle = document.querySelector('.explore-title');
 
-    if(myDiv){
+    if(scrollDownBtn){
+
       if (window.scrollY > 150) {
-        myDiv.classList.add('fade-out');
+        exploreTitle.classList.add('fade-out');
+        scrollDownBtn.classList.add('fade-out');
+        scrollDownBtn.classList.add('disable');
       } else {
-        myDiv.classList.remove('fade-out');
+
+        if(scrollDownBtn.classList.contains('disable')){
+          exploreTitle.classList.remove('fade-out');
+          scrollDownBtn.classList.remove('fade-out');
+          scrollDownBtn.classList.remove('disable');
+        }
       }
     }
   });

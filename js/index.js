@@ -43,6 +43,7 @@ function wp_rest_api_call( e ) {
 	}
 
 	// Fetch REST API data
+	if (endpoint){
 	fetch( apiURL+endpoint )
 		.then( response => response.json() )
 		.then( data => {
@@ -84,6 +85,7 @@ function wp_rest_api_call( e ) {
 			loading.style.display = 'none';
 
 		});
+	}
 
 };
 
@@ -110,7 +112,7 @@ function wp_output_single( data ) {
 				</p>
 				</div>
 				<div class="explore-wrapper fade-in">
-					<h3>Explore</h3>
+					<h3 class="explore-title" >Explore</h3>
 					<a href="#sec-2" class="explore">
 					<div class="scroll-down"></div>
 	  				</a>
@@ -121,6 +123,7 @@ function wp_output_single( data ) {
 		  <div class="container">`;
 
 			if (data.acf.main_projects) {
+
 				const relationshipField = data.acf.main_projects;
 		  
 				const fetchRequests = relationshipField.map((post) => {
@@ -129,8 +132,6 @@ function wp_output_single( data ) {
 					  .then((post) => {
 
 						pageContent += '<div class="all-work-wrapper">';
-	
-
 					
 							// Output Blog posts
 							pageContent += `
@@ -175,7 +176,6 @@ function wp_output_single( data ) {
 							}
 				
 							// Output the Featured Image
-							// pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
 							 output_featured_image( post );
 				
 							 pageContent += '</a></article>';
@@ -183,7 +183,7 @@ function wp_output_single( data ) {
 					
 						
 				
-						pageContent += '<div/>';
+						pageContent += '</div>';
 				
 					
 					// 	pageContent +=  `
@@ -218,6 +218,8 @@ function wp_output_single( data ) {
 	   </section>
 	   </div>`;
 	   mainEl.innerHTML = pageContent;
+
+	   update_event_listener();
 	 })
 
 	}
@@ -274,34 +276,11 @@ function wp_output_single( data ) {
 		update_event_listener();
 
 	}
-		// let concerts = data.acf.concert_list;
-
-
-
-		// Convert the string into an array
-		// let concert_array = concerts.split(",");
-
-		// console.log(concert_array);
-
-		
-		// if ( concerts){
-			
-		// 	mainEl.innerHTML += `
-		// 	<button onclick="generateRandomElement(concert_array)">Generate Random Element</button>
-
-		// <p id="random-element"></p>
-
-
-		// `;
-
-		// 	}
 
 
 	// Add next/prev navigation for Posts only
 	if ( data.previous_post || data.next_post ) {
 
-		// Output the Featured Image
-		// contentElement.innerHTML += `<figure class="featured-image"></figure>`;
 		output_featured_image( data );
 
 		console.log(data);
@@ -396,7 +375,6 @@ function wp_output_single( data ) {
             }
 
 			// Output the Featured Image
-            // pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
 			 output_featured_image( post );
 
              pageContent += '</a></article>';
@@ -404,7 +382,7 @@ function wp_output_single( data ) {
 	
 		}
 
-		pageContent += '<div /><div />';
+		pageContent += '</div></div>';
 
 
 		mainEl.innerHTML = pageContent;
