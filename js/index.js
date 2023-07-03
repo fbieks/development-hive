@@ -15,9 +15,6 @@ window.addEventListener('popstate', function(e) {
 // General WP REST API function
 function wp_rest_api_call( e ) {
 
-	// Show loading icon
-	loading.style.display = 'block';
-
 	// Create endpoint variable
 	let endpoint = '',
 		link     = '',
@@ -44,6 +41,11 @@ function wp_rest_api_call( e ) {
 
 	// Fetch REST API data
 	if (endpoint){
+
+			// Show loading icon
+	loading.style.display = 'block';
+
+
 	fetch( apiURL+endpoint )
 		.then( response => response.json() )
 		.then( data => {
@@ -142,34 +144,33 @@ function wp_output_single( data ) {
 								</h2>
 							`;
 				
-							let tech= [];
-							let designTech= [];
-							let techUsed = [];
+							let displayTools= [];
+							let designTech= post.acf.design_tech_used;
+							let teamTech= post.acf.team_tech_used;
+							let techUsed = post.acf.tech_used;
 							
 				
-							if ((post.acf.tech_used).length !== 0){
-								tech = post.acf.tech_used;
+							if ((post.acf.display_tools).length !== 0){
+
+								displayTools = post.acf.display_tools;
 				
-								techUsed = tech;
-							}
-							if ((post.acf.design_tech_used).length !== 0){
-								designTech = post.acf.design_tech_used;
-				
-								if ( techUsed.length === 0 ){
-								techUsed = designTech;
-								}
-								else
-								techUsed = techUsed.concat(designTech);
-							}
-				
-				
-							if (techUsed.length !== 0 ){
-				
-								pageContent += `<ul class='tech-used' > `;
+								pageContent += `<ul class='tools-used sum-tools' > `;
 								
-								for (let i = 0; i < (techUsed.length) ; i++) {
+								for (let i = 0; i < (displayTools.length) ; i++) {
+
+
+									if(techUsed.includes(displayTools[i])){
+
+										pageContent += `<li class="tech-tools-item" > ${displayTools[i]}</li>`;
+									}
+
+									else if(designTech.includes(displayTools[i])){
+										pageContent += `<li class="design-tools-item" > ${displayTools[i]}</li>`;
+									}
+									else if(teamTech.includes(displayTools[i])){
+										pageContent += `<li class="team-tools-item" > ${displayTools[i]}</li>`;
+									}
 				
-									pageContent += `<li> ${techUsed[i]}</li>`;
 								}
 				
 								pageContent += `</ul> `;
@@ -250,7 +251,7 @@ function wp_output_single( data ) {
 		update_event_listener();
 	}
 	
-	// About Page Link
+	// About Page Lin
 	if ( data.id == 27 ) {
 
 		console.log(data);
@@ -260,12 +261,13 @@ function wp_output_single( data ) {
 		<div class="about-text">
 		<h1>${data.acf.about_intro}</h1>
 		<p>${data.acf.description}</p>
-		<div class="insta-wrapper">${data.content.rendered}</div>
 		</div>
 	`;
 
-		
-	output_featured_image( data );
+	pageContent+= `<div class= "hexagon"><img src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
+
+	pageContent+= `<a href="${data.acf.insta_posts[0].insta_url}" ><div class= "hexagon collage"><img src="${data.acf.insta_posts[0].insta_image}" alt="girl standing with nature background"></div>`;
+
 
 	pageContent += `
 	</div>
@@ -340,39 +342,37 @@ function wp_output_single( data ) {
                 </h2>
 			`;
 
-            let tech= [];
-            let designTech= [];
-            let techUsed = [];
-            
+			let displayTools= [];
+			let designTech= post.acf.design_tech_used;
+			let teamTech= post.acf.team_tech_used;
+			let techUsed = post.acf.tech_used;
+			
 
-            if ((post.acf.tech_used).length !== 0){
-                tech = post.acf.tech_used;
+			if ((post.acf.display_tools).length !== 0){
 
-                techUsed = tech;
-            }
+				displayTools = post.acf.display_tools;
 
-            if ((post.acf.design_tech_used).length !== 0){
-                designTech = post.acf.design_tech_used;
-
-                if ( techUsed.length === 0 ){
-                techUsed = designTech;
-                }
-                else
-                techUsed = techUsed.concat(designTech);
-            }
+				pageContent += `<ul class='tools-used sum-tools' > `;
+				
+				for (let i = 0; i < (displayTools.length) ; i++) {
 
 
-            if (techUsed.length !== 0 ){
+					if(techUsed.includes(displayTools[i])){
 
-                pageContent += `<ul class='tech-used' > `;
-                
-                for (let i = 0; i < (techUsed.length) ; i++) {
+						pageContent += `<li class="tech-tools-item" > ${displayTools[i]}</li>`;
+					}
 
-                    pageContent += `<li> ${techUsed[i]}</li>`;
-                }
+					else if(designTech.includes(displayTools[i])){
+						pageContent += `<li class="design-tools-item" > ${displayTools[i]}</li>`;
+					}
+					else if(teamTech.includes(displayTools[i])){
+						pageContent += `<li class="team-tools-item" > ${displayTools[i]}</li>`;
+					}
 
-                pageContent += `</ul> `;
-            }
+				}
+
+				pageContent += `</ul> `;
+			}
 
 			// Output the Featured Image
 			 output_featured_image( post );
@@ -473,7 +473,7 @@ function output_featured_image( data ) {
 		let featuredImage = data._embedded['wp:featuredmedia'][0];
 		let imgWidth = featuredImage.media_details.sizes.full.width;
 		let imgHeight = featuredImage.media_details.sizes.full.height;
-		imgElement = `<div class= "hexagon">
+		imgElement = `
 		<img src="${featuredImage.media_details.sizes.full.source_url}" 
 			 width="${imgWidth}"
 			 height="${imgHeight}"
@@ -482,7 +482,7 @@ function output_featured_image( data ) {
 			 ${featuredImage.media_details.sizes.large.source_url} 1024w,
 			 ${featuredImage.media_details.sizes.medium_large.source_url} 768w,
 			 ${featuredImage.media_details.sizes.medium.source_url} 300w"
-			 sizes="(max-width: ${imgWidth}) 100vw, ${imgWidth}px"></div>
+			 sizes="(max-width: ${imgWidth}) 100vw, ${imgWidth}px">
 		`;
 
 		console.log(figureElement);

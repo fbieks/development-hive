@@ -2,7 +2,9 @@
 // Get the necessary elements
 const hamburgerMenu = document.querySelector('.hamburger-menu');
 const mobileNav = document.querySelector('.mobile-nav');
-const bar = hamburgerMenu.querySelector('.bar');
+const beforeBar = hamburgerMenu.querySelector('.before-bar');
+const afterBar = hamburgerMenu.querySelector('.after-bar');
+const middleBar = hamburgerMenu.querySelector('.middle-bar');
 let prevWidth = window.innerWidth;
 
 // Toggle the mobile navigation when hamburger menu is clicked
