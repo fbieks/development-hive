@@ -264,9 +264,7 @@ function wp_output_single( data ) {
 		</div>
 	`;
 
-	pageContent+= `<div class= "hexagon"><img src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
-
-	pageContent+= `<div class= "hexagon collage"><img src="${data.acf.insta_posts[0].insta_image}" alt="girl standing with nature background"></div>`;
+	pageContent += `<div class= "hexagon"><img src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
 
 
 	pageContent += `
@@ -275,7 +273,10 @@ function wp_output_single( data ) {
 
 // hexigon collage 
 // reference: https://codepen.io/yyurtyeri/pen/YzwQddb
+let imageArray = data.acf.insta_posts;
 
+console.log(imageArray);
+if (imageArray){
 pageContent += `	
 <div class="collage-container" onclick="expand()">
 	<div class="collage-content">
@@ -283,33 +284,20 @@ pageContent += `
 		<span class="fa fa-plus" id="add">
 		</span>
 	</div>
-	<div class="collage-menu" id="collage-menu">
+	<div class="collage-menu" id="collage-menu">`;
+
+	for (let singleImage of imageArray){
+
+	pageContent += `
 		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
-		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
-		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
-		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
-		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
-		<div class="collage-item">
-			<span class="inner-item">
-			</span>
-		</div>
+		<img id="${singleImage.post_url}" src="${singleImage.insta_image}" alt="${singleImage.post_url}">
+		</div>`
+	}
+	pageContent += `
 </div>
-</div>
+</div>`
+}
+pageContent += `
 </div>
 </div>
 `;

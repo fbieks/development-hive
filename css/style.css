@@ -677,10 +677,10 @@ section {
 }
 
 .collage-toggle{
-    width: 6.8rem;
-    height: 5.6rem;
+	width: 11.8rem;
+    height: 9.6rem;
     clip-path: polygon(50% 0, 85% 25%, 85% 75%, 50% 100%, 15% 75%, 15% 25%);
-    background-color: #af3939;
+    background-color: var(--accent-red);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -703,8 +703,8 @@ section {
 }
 
 .collage-item{
-    width: 6.8rem;
-    height: 5.6rem;
+	width: 9.8rem;
+    height: 8.6rem;
     clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
     background-color: green;
     margin: auto;
@@ -715,6 +715,12 @@ section {
     top: 0;
 	bottom: 0;
 	transition: 1s;
+}
+
+.collage-item img{
+	height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 
