@@ -201,7 +201,7 @@ a:focus {
 	position: fixed;
 	right: 1rem;
 	width: 2.5rem;
-	height: 30px;
+	height: 1.9rem;
 	cursor: pointer;
 	z-index: 9999;
 	bottom: 1.5rem;
@@ -428,6 +428,7 @@ a:focus {
 	width: 100%;
     align-items: baseline;
 	align-items: center;
+	margin-bottom: 3rem;
 }
 
 .container article {
@@ -657,8 +658,66 @@ section {
 		/* animation: fadeInDown ;
 		animation-duration: 2s; */
 	  }
+	}
+
+/* hexigon collage */
+
+.collage-content{
+	position: relative;
+}
+
+.collage-container, .collage-menu{
+	height: 80vh;
+    width: 100%;
+    position: relative;
+}
+
+.collage-menu{
+	transform: scale(0.9);
+}
+
+.collage-toggle{
+    width: 6.8rem;
+    height: 5.6rem;
+    clip-path: polygon(50% 0, 85% 25%, 85% 75%, 50% 100%, 15% 75%, 15% 25%);
+    background-color: #af3939;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(90deg);
+    margin: auto;
+    position: absolute;
+    z-index: 7;
+    left: 0;
+    right: 0;
+    top: 0;
+	bottom: 0;
+	cursor: pointer;
+}
+
+#add{
+	font-size: 40px;
+	color: white;
+	transition: 1s;
 
 }
+
+.collage-item{
+    width: 6.8rem;
+    height: 5.6rem;
+    clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+    background-color: green;
+    margin: auto;
+	position: absolute;
+    z-index: 6;
+    left: 0;
+    right: 0;
+    top: 0;
+	bottom: 0;
+	transition: 1s;
+}
+
+
 
 /* Work Page */
 
@@ -769,9 +828,12 @@ section {
 	display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
-.work-content-wrapper
+.work-content-wrapper{
+	margin-bottom: 20vh;
+}
 
 .single-work-title h1{
 	font-size: 1.6rem;

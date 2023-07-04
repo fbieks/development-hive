@@ -35,3 +35,39 @@ function generateRandomElement() {
 	var randomElement = concert_array[randomIndex];
 	document.getElementById("random-element").textContent = randomElement;
   }
+
+
+  // ABOUT PAGE, hexigon collage btn
+  //reference: https://codepen.io/yyurtyeri/pen/YzwQddb
+
+  let j = 0;
+  
+  function expand() {
+
+    let items = document.querySelectorAll('.collage-item');
+    let itemArray = Array.from(items);
+    if (j === 0) {
+      
+      console.log(document.querySelectorAll('collage-item'));
+      console.log(itemArray);
+      document.getElementById("add").style.transform = 'rotate(45deg)';
+      document.getElementById("collage-menu").style.transform = 'scale(1)';
+      itemArray[0].style.transform = 'translateY(-160px)';
+      itemArray[1].style.transform = 'translate(140px,-80px)';
+      itemArray[2].style.transform = 'translate(140px,80px)';
+      itemArray[3].style.transform = 'translateY(160px)';
+      itemArray[4].style.transform = 'translate(-140px,80px)';
+      itemArray[5].style.transform = 'translate(-140px,-80px)';
+      j = 1;
+    } else {
+      document.getElementById("add").style.transform = 'rotate(0deg)';
+      document.getElementById("collage-menu").style.transform = 'scale(0.9)';
+      itemArray[0].style.transform = 'translateY(0)';
+      itemArray[1].style.transform = 'translate(0)';
+      itemArray[2].style.transform = 'translate(0)';
+      itemArray[3].style.transform = 'translateY(0)';
+      itemArray[4].style.transform = 'translate(0)';
+      itemArray[5].style.transform = 'translate(0)';
+      j = 0;
+    }
+  }

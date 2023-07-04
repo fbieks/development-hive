@@ -266,12 +266,59 @@ function wp_output_single( data ) {
 
 	pageContent+= `<div class= "hexagon"><img src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
 
-	pageContent+= `<a href="${data.acf.insta_posts[0].insta_url}" ><div class= "hexagon collage"><img src="${data.acf.insta_posts[0].insta_image}" alt="girl standing with nature background"></div>`;
+	pageContent+= `<div class= "hexagon collage"><img src="${data.acf.insta_posts[0].insta_image}" alt="girl standing with nature background"></div>`;
 
 
 	pageContent += `
 	</div>
 `;
+
+// hexigon collage 
+// reference: https://codepen.io/yyurtyeri/pen/YzwQddb
+
+pageContent += `	
+<div class="collage-container" onclick="expand()">
+	<div class="collage-content">
+	<div class="collage-toggle" id="collage-toggle">
+		<span class="fa fa-plus" id="add">
+		</span>
+	</div>
+	<div class="collage-menu" id="collage-menu">
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+		<div class="collage-item">
+			<span class="inner-item">
+			</span>
+		</div>
+</div>
+</div>
+</div>
+</div>
+`;
+
+
+
+
+
+
 
 		mainEl.innerHTML = pageContent;
 
@@ -404,8 +451,9 @@ function wp_output_single_work( data ) {
 		<div class="single-work-title">
 		<h1>${data.title.rendered}</h1>
 		</div>
-		<div class="image-and-tech-wrapper">
+		<div class="single-work-content">
 		<div class="work-content-wrapper">
+		<div class="image-and-tech-wrapper">
 	`;
 
 	// Output the Featured Image
@@ -445,7 +493,7 @@ function wp_output_single_work( data ) {
 
 	pageContent+= '</ul></div></div>';
 
-	pageContent += `</a><p>${data.acf.general_description}</p></div></article>`;
+	pageContent += `</a><p>${data.acf.general_description}</p></div></div></article>`;
 
 
 	mainEl.innerHTML = pageContent;
