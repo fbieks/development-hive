@@ -45,7 +45,9 @@ function generateRandomElement() {
   function expand() {
 
     let items = document.querySelectorAll('.collage-item');
+    let instaText = document.querySelector('.insta-text');
     let itemArray = Array.from(items);
+
     if (j === 0) {
       
       console.log(document.querySelectorAll('collage-item'));
@@ -58,8 +60,15 @@ function generateRandomElement() {
       itemArray[3].style.transform = 'translateY(160px)';
       itemArray[4].style.transform = 'translate(-140px,80px)';
       itemArray[5].style.transform = 'translate(-140px,-80px)';
+
+      // handle text
+      instaText.classList.add("fade-out");
+
       j = 1;
     } else {
+
+      instaText.classList.remove("fade-out");
+
       document.getElementById("add").style.transform = 'rotate(0deg)';
       document.getElementById("collage-menu").style.transform = 'scale(0.9)';
       itemArray[0].style.transform = 'translateY(0)';
@@ -69,5 +78,8 @@ function generateRandomElement() {
       itemArray[4].style.transform = 'translate(0)';
       itemArray[5].style.transform = 'translate(0)';
       j = 0;
+
+      instaText.classList.add("fade-in");
+
     }
   }

@@ -4,6 +4,26 @@ const loading = document.getElementById('loading');
 const apiURL  = 'https://developmenthive.com/portfolio/wp-json/wp/v2/';
 let pageContent = '';
 
+// Function to show loading icon
+function showLoadingIcon() {
+
+	loading.classList.add('fade-in');
+
+	setTimeout(() => {
+		loading.style.display = 'block';
+	}, 100);
+
+  }
+  
+  // Function to hide loading icon
+  function hideLoadingIcon() {
+	loading.classList.add('fade-out');
+	
+	setTimeout(() => {
+		loading.classList.remove('fade-out');
+		loading.style.display = 'none';
+	}, 500);
+  }
 
 // Run REST query if back/forward buttons used
 window.addEventListener('popstate', function(e) {
@@ -39,11 +59,10 @@ function wp_rest_api_call( e ) {
 
 	}
 
+	showLoadingIcon();
+
 	// Fetch REST API data
 	if (endpoint){
-
-			// Show loading icon
-	loading.style.display = 'block';
 
 
 	fetch( apiURL+endpoint )
@@ -52,6 +71,13 @@ function wp_rest_api_call( e ) {
 
 
 	 console.log(data);
+
+	 // Hide the existing content
+	 mainEl.innerHTML = '';
+	 scroll(0, 0);
+
+
+	 setTimeout(() => {
 
 
 			// Run the proper JS functkion based on the endpoint
@@ -68,13 +94,11 @@ function wp_rest_api_call( e ) {
 				wp_output_single_work(data);
 			}
 
-			// Hide loading icon
-			loading.style.display = 'none';
+        // Hide loading icon
+        hideLoadingIcon();
 
-			// Move to top of page after content loads
-			scroll(0,0);
-
-		})
+      }, 1000); 
+    })
 		.catch( error => {
 
 			// Output error message to console
@@ -84,7 +108,7 @@ function wp_rest_api_call( e ) {
 			mainEl.innerHTML = 'There was an error. Check the console to resolve the issue.';
 
 			// Hide loading icon
-			loading.style.display = 'none';
+			hideLoadingIcon();
 
 		});
 	}
@@ -127,13 +151,14 @@ function wp_output_single( data ) {
 			if (data.acf.main_projects) {
 
 				const relationshipField = data.acf.main_projects;
+
+				pageContent += '<div class="all-work-wrapper">';
 		  
 				const fetchRequests = relationshipField.map((post) => {
 					return fetch(apiURL + 'feb-work/' + post + '?_embed')
 					  .then((response) => response.json())
 					  .then((post) => {
 
-						pageContent += '<div class="all-work-wrapper">';
 					
 							// Output Blog posts
 							pageContent += `
@@ -182,25 +207,6 @@ function wp_output_single( data ) {
 							 pageContent += '</a></article>';
 							 
 					
-						
-				
-						pageContent += '</div>';
-				
-					
-					// 	pageContent +=  `
-					//   <article id="post-${post.id}">
-					//   <h2>
-					//   <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
-					//   ${post.title.rendered}
-					//   </a>
-					//   </h2>`;
-
-					// // Output the Featured Image
-					// pageContent += `<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">`;
-					// output_featured_image( post );
-		
-					// pageContent += '</a></article>';
-					
 				})
 				.catch((error) => {
 					console.error(error);
@@ -216,6 +222,7 @@ function wp_output_single( data ) {
 	 Promise.all(fetchRequests)
 	 .then(() => {
 	   pageContent += `  </div>
+	   </div>
 	   </section>
 	   </div>`;
 	   mainEl.innerHTML = pageContent;
@@ -264,12 +271,43 @@ function wp_output_single( data ) {
 		</div>
 	`;
 
-	pageContent += `<div class= "hexagon"><img src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
+	pageContent += `<div class= "hexagon"><img class="self-image"src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
+
+let tech= [];
+let teamTech= [];
+let designTech= [];
+
+pageContent += '<div class="all-tools-wrapper" ><h2>Tech Stack</h2><ul class="tools-used"> ';
+
+if ((data.acf.all_tech).length !== 0){
+
+	tech = data.acf.all_tech;
+
+	for (let i = 0; i < (tech.length) ; i++) {
+		pageContent += `<li class="tech-tools-item" id="#${tech[i]}" > ${tech[i]}</li>`;
+	}
+}
+
+if ((data.acf.all_design_tech).length !== 0){
+
+	designTech = data.acf.all_design_tech;
+
+	for (let i = 0; i < (designTech.length) ; i++) {
+	pageContent += `<li class="design-tools-item" id="#${tech[i]}" > ${designTech[i]}</li>`;
+	}
+}
+
+if ((data.acf.all_team_tech).length !== 0){
+	teamTech = data.acf.all_team_tech;
+
+	for (let i = 0; i < (teamTech.length) ; i++) {
+	pageContent += `<li class="team-tools-item" id="#${tech[i]}"  > ${teamTech[i]}</li>`;
+	}
+}
+
+pageContent+= '</ul></div>';
 
 
-	pageContent += `
-	</div>
-`;
 
 // hexigon collage 
 // reference: https://codepen.io/yyurtyeri/pen/YzwQddb
@@ -277,7 +315,12 @@ let imageArray = data.acf.insta_posts;
 
 console.log(imageArray);
 if (imageArray){
-pageContent += `	
+
+// pageContent += `<p class="insta-text">${data.acf.insta_call}</p>`;
+
+
+pageContent += `<div class="insta-wrapper">	
+<p class="insta-text">${data.acf.insta_call}</p>
 <div class="collage-container" onclick="expand()">
 	<div class="collage-content">
 	<div class="collage-toggle" id="collage-toggle">
@@ -290,20 +333,29 @@ pageContent += `
 
 	pageContent += `
 		<div class="collage-item">
-		<img id="${singleImage.post_url}" src="${singleImage.insta_image}" alt="${singleImage.post_url}">
+		<a target="_blank" href="${singleImage.post_url}" >
+		<img id="${singleImage.post_url}" src="${singleImage.insta_image}" alt="${singleImage.image_alt}">
+		</a>
 		</div>`
 	}
+
 	pageContent += `
-</div>
-</div>`
+	</div>
+	</div>
+	</div>`
+
 }
+
+
 pageContent += `
+</div>
 </div>
 </div>
 `;
 
-
-
+// content wrapper
+pageContent += `
+</div>`;
 
 
 
@@ -481,8 +533,12 @@ function wp_output_single_work( data ) {
 
 	pageContent+= '</ul></div></div>';
 
-	pageContent += `</a><p>${data.acf.general_description}</p></div></div></article>`;
+	pageContent += `</a><p>${data.acf.general_description}</p>`;
 
+	//reference: https://codepen.io/alexander-albul/pen/NBBaxw
+	pageContent += `<a target="_blank" href="${data.acf.link_to_project}" class="btn btn_live">Live<span class="live-icon"></span></a>`;
+
+	pageContent += `</div></div></article>`;
 
 	mainEl.innerHTML = pageContent;
 
