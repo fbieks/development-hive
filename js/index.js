@@ -258,17 +258,13 @@ function wp_output_single( data ) {
 		update_event_listener();
 	}
 	
-	// About Page Lin
+	// About Page 
 	if ( data.id == 27 ) {
-
-		console.log(data);
 
 		pageContent = `
 		<div class="about-wrapper page-wrapper">
-		<div class="about-text">
 		<h1>${data.acf.about_intro}</h1>
-		<p>${data.acf.description}</p>
-		</div>
+		<div  class="about-text" >${data.acf.description}</div>
 	`;
 
 	pageContent += `<div class= "hexagon"><img class="self-image"src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
@@ -321,9 +317,9 @@ if (imageArray){
 
 pageContent += `<div class="insta-wrapper">	
 <p class="insta-text">${data.acf.insta_call}</p>
-<div class="collage-container" onclick="expand()">
+<div class="collage-container">
 	<div class="collage-content">
-	<div class="collage-toggle" id="collage-toggle">
+	<div class="collage-toggle" id="collage-toggle" onclick="expand()" >
 		<span class="fa fa-plus" id="add">
 		</span>
 	</div>

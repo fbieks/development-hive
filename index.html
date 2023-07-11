@@ -22,6 +22,8 @@
 	<body>
 		<div id="page">
 
+			    <a href="#main" class="screen-reader-text">Skip to Content</a>
+
 			<header id="masthead" class="site-header">
 
 				<span class="back-line" id="line-one"></span>
@@ -29,15 +31,15 @@
 					<!-- put logo here -->
 				</div>
 				
-				<div class="hamburger-menu">
-					<div class="bar before-bar" id="before-bar"></div>
-					<div class="bar middle-bar" id="middle-bar"></div>
-					<div class="bar after-bar" id="after-bar"></div>
-				</div>
+				<nav class="site-navigation" id="site-navigation" >
+				<button class="hamburger-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Menu Toggle" >
+					<span class="bar before-bar" id="before-bar"></span>
+					<span class="bar middle-bar" id="middle-bar"></span>
+					<span class="bar after-bar" id="after-bar"></span>
+				</button>
 				
 
-				<nav class="site-navigation">
-					<ul class="mobile-nav hide" >
+					<ul class="mobile-nav hide" id="mobile-nav" aria-hidden="true" >
 						<li><a href="#landing" data-endpoint="pages/38?_embed" data-postid="38"><div>Home</div></a></li>
 						<li><a href="#work" data-endpoint="feb-work?_embed" data-posttype="feb-work"><div>Work</div></a></li>
 						<li><a href="#about" data-endpoint="pages/27?_embed" data-postid="27"><div>About</div></a></li>

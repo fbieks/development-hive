@@ -25,18 +25,6 @@ window.addEventListener('scroll', function() {
     }
   });
   
-  
-
-
-// Generate a random element (About Page)
-function generateRandomElement() {
-	var randomIndex = Math.floor(Math.random() * concert_array.length);
-	console.log(randomIndex);
-	var randomElement = concert_array[randomIndex];
-	document.getElementById("random-element").textContent = randomElement;
-  }
-
-
   // ABOUT PAGE, hexigon collage btn
   //reference: https://codepen.io/yyurtyeri/pen/YzwQddb
 
@@ -51,15 +39,15 @@ function generateRandomElement() {
     if (j === 0) {
       
       console.log(document.querySelectorAll('collage-item'));
-      console.log(itemArray);
+
       document.getElementById("add").style.transform = 'rotate(45deg)';
       document.getElementById("collage-menu").style.transform = 'scale(1)';
-      itemArray[0].style.transform = 'translateY(-160px)';
-      itemArray[1].style.transform = 'translate(140px,-80px)';
-      itemArray[2].style.transform = 'translate(140px,80px)';
-      itemArray[3].style.transform = 'translateY(160px)';
-      itemArray[4].style.transform = 'translate(-140px,80px)';
-      itemArray[5].style.transform = 'translate(-140px,-80px)';
+      itemArray[0].style.transform = 'translateY(-180px)';
+      itemArray[1].style.transform = 'translate(160px,-90px)';
+      itemArray[2].style.transform = 'translate(160px,90px)';
+      itemArray[3].style.transform = 'translateY(180px)';
+      itemArray[4].style.transform = 'translate(-160px,90px)';
+      itemArray[5].style.transform = 'translate(-160px,-90px)';
 
       // handle text
       instaText.classList.add("fade-out");
