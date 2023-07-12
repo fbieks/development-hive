@@ -27,19 +27,32 @@ window.addEventListener('scroll', function() {
   
   // ABOUT PAGE, hexigon collage btn
   //reference: https://codepen.io/yyurtyeri/pen/YzwQddb
-
-  let j = 0;
   
-  function expand() {
+  let j = 0;
 
+  function expand(event) {
     let items = document.querySelectorAll('.collage-item');
     let instaText = document.querySelector('.insta-text');
     let itemArray = Array.from(items);
 
+
+    function setIndex(item){
+      if (j===0){
+        
+        item.querySelector('a').tabIndex = 0;
+      }
+      else if(j===1){
+        item.querySelector('a').tabIndex = -1;
+      }
+    }
+
+    if (event.keyCode === 13 || event.type === 'click') {
+    event.preventDefault();
+
     if (j === 0) {
       
       console.log(document.querySelectorAll('collage-item'));
-
+  
       document.getElementById("add").style.transform = 'rotate(45deg)';
       document.getElementById("collage-menu").style.transform = 'scale(1)';
       itemArray[0].style.transform = 'translateY(-180px)';
@@ -49,14 +62,16 @@ window.addEventListener('scroll', function() {
       itemArray[4].style.transform = 'translate(-160px,90px)';
       itemArray[5].style.transform = 'translate(-160px,-90px)';
 
+      itemArray.forEach(setIndex);
+  
       // handle text
       instaText.classList.add("fade-out");
-
+  
       j = 1;
     } else {
-
       instaText.classList.remove("fade-out");
-
+      itemArray.forEach(setIndex);
+  
       document.getElementById("add").style.transform = 'rotate(0deg)';
       document.getElementById("collage-menu").style.transform = 'scale(0.9)';
       itemArray[0].style.transform = 'translateY(0)';
@@ -66,8 +81,8 @@ window.addEventListener('scroll', function() {
       itemArray[4].style.transform = 'translate(0)';
       itemArray[5].style.transform = 'translate(0)';
       j = 0;
-
+  
       instaText.classList.add("fade-in");
-
     }
   }
+}

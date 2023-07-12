@@ -9,10 +9,12 @@
   const hamburgerMenu = document.querySelector('.hamburger-menu');
   const mobileNav = document.querySelector('.mobile-nav');
   const menuItems = mobileNav.querySelectorAll('a');
+  let isMenuOpen = false;
 
   // Toggle the mobile navigation when hamburger menu is clicked
   hamburgerMenu.addEventListener('click', () => {
-    const isMenuOpen = mobileNav.classList.contains('hide');
+    
+    isMenuOpen = !isMenuOpen;
 
     hamburgerMenu.classList.toggle('change');
     mobileNav.classList.toggle('hide');
@@ -20,21 +22,50 @@
     mobileNav.setAttribute('aria-hidden', isMenuOpen);
 
     // Set focus on the first menu item when the menu opens
-    if (!isMenuOpen) {
-      menuItems[0].focus();
+    if (isMenuOpen) {
+      enableMenuFocus();
+      // menuItems[0].focus();
+    } else {
+      disableMenuFocus();
+      hamburgerMenu.focus();
     }
   });
 
-  // Close the mobile navigation when a menu item is clicked
-  menuItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      hamburgerMenu.classList.remove('change');
-      mobileNav.classList.add('hide');
-      hamburgerMenu.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-      hamburgerMenu.focus();
-    });
+// Close the mobile navigation when clicking outside the menu
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  isMenuOpen = !mobileNav.classList.contains('hide');
+
+  if (
+    isMenuOpen &&
+    !mobileNav.contains(target) &&
+    !hamburgerMenu.contains(target)
+  ) {
+    isMenuOpen = false;
+
+    hamburgerMenu.classList.remove('change');
+    mobileNav.classList.add('hide');
+    hamburgerMenu.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    disableMenuFocus();
+  }
+});
+
+// Close the mobile navigation when a menu item is clicked
+menuItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    isMenuOpen = false;
+
+    hamburgerMenu.classList.remove('change');
+    mobileNav.classList.add('hide');
+    hamburgerMenu.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    disableMenuFocus();
   });
+});
+
+
+
 
   // Watch for resize
   window.addEventListener('resize', function () {
@@ -43,11 +74,13 @@
     if (window.innerWidth >= 720 && isMenuHidden) {
       mobileNav.classList.remove('hide');
       hamburgerMenu.classList.remove('change');
+      enableMenuFocus();
     }
 
     if (window.innerWidth < 720 && !isMenuHidden) {
       hamburgerMenu.classList.remove('change');
       mobileNav.classList.add('hide');
+      disableMenuFocus();
     }
 
     if (isMenuHidden !== isHamburgerMenuChanged) {
@@ -56,28 +89,14 @@
     }
   });
 
-  // Close the mobile navigation when clicking outside the menu
-  document.addEventListener('click', (event) => {
-    const target = event.target;
-    const isMenuOpen = !mobileNav.classList.contains('hide');
-
-    if (
-      isMenuOpen &&
-      !mobileNav.contains(target) &&
-      !hamburgerMenu.contains(target)
-    ) {
-      hamburgerMenu.classList.remove('change');
-      mobileNav.classList.add('hide');
-      hamburgerMenu.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-    }
-  });
-
+  
   // Highlight current nav title---------------------------------
-  window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('popstate', () => {
+    
     let links = document.querySelectorAll('.mobile-nav li a');
 
     function highlightCurrent() {
+      
       let currentLink = document.querySelector('.mobile-nav li a#current');
       if (currentLink) {
         currentLink.removeAttribute('id');
@@ -91,46 +110,45 @@
       }
     }
 
+
+
     // Initial highlighting on page load
     highlightCurrent();
 // --------------------------------------------------------------------
 
-    links.forEach((link) => {
-      link.addEventListener('click', () => {
-        highlightCurrent();
-      });
+links.forEach((link) => {
+  // link.addEventListener('click', () => {
+  //   highlightCurrent();
+  // });
 
-      // Toggle focus for keyboard accessibility
-      link.addEventListener('focus', toggleFocus);
-      link.addEventListener('blur', toggleFocus);
-    });
-  });
+  // Toggle focus for keyboard accessibility
+  link.addEventListener('focus', toggleFocus);
+  link.addEventListener('blur', toggleFocus);
+});
+});
 
-  /**
-   * Sets or removes .focus class on an element.
-   */
-  function toggleFocus(event) {
-    if (event.type === 'focus' || event.type === 'blur') {
-      let self = this;
+/**
+* Enables focus on the menu items.
+*/
+function enableMenuFocus() {
+menuItems.forEach((item) => {
+  item.tabIndex = 0;
+});
+}
 
-      while (!self.classList.contains('nav-menu')) {
+/**
+* Disables focus on the menu items.
+*/
+function disableMenuFocus() {
+menuItems.forEach((item) => {
+  item.tabIndex = -1;
+});
+}
 
-        if ('li' === self.tagName.toLowerCase()) {
-          self.classList.toggle('focus');
-        }
-        self = self.parentNode;
-      }
-    }
+// Disable focus on menu items initially
+disableMenuFocus();
 
-    if (event.type === 'touchstart') {
-      const menuItem = this.parentNode;
-      event.preventDefault();
-      for (const link of menuItem.parentNode.children) {
-        if (menuItem !== link) {
-          link.classList.remove('focus');
-        }
-      }
-      menuItem.classList.toggle('focus');
-    }
-  }
+
+
+
 })();

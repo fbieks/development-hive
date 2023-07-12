@@ -160,7 +160,7 @@ function wp_output_single( data ) {
 					  .then((post) => {
 
 					
-							// Output Blog posts
+							// Output WORK posts
 							pageContent += `
 								<article id="post-${post.id}">
 								<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
@@ -237,121 +237,94 @@ function wp_output_single( data ) {
 	  }
 
 	}
-
-	// Contact Page Content
-	if ( data.id == 35 ) {
-
-		console.log( data );
-
-		pageContent = `
-		<p>${data.acf.contact_intro}</p>
-		<p>${data.acf.contact_info}</p>
-		
-		<a hred="mailto:${data.acf.github} ">${data.acf.github}
-		</a>
-		<a hred="mailto:${data.acf.email} ">${data.acf.email}
-		</a>
-		`;
-
-		mainEl.innerHTML = pageContent;
-
-		update_event_listener();
-	}
 	
 	// About Page 
 	if ( data.id == 27 ) {
 
 		pageContent = `
 		<div class="about-wrapper page-wrapper">
-		<h1>${data.acf.about_intro}</h1>
-		<div  class="about-text" >${data.acf.description}</div>
-	`;
-
-	pageContent += `<div class= "hexagon"><img class="self-image"src="${data.acf.image_myself}" alt="girl standing with nature background"></div>`;
-
-let tech= [];
-let teamTech= [];
-let designTech= [];
-
-pageContent += '<div class="all-tools-wrapper" ><h2>Tech Stack</h2><ul class="tools-used"> ';
-
-if ((data.acf.all_tech).length !== 0){
-
-	tech = data.acf.all_tech;
-
-	for (let i = 0; i < (tech.length) ; i++) {
-		pageContent += `<li class="tech-tools-item" id="#${tech[i]}" > ${tech[i]}</li>`;
-	}
-}
-
-if ((data.acf.all_design_tech).length !== 0){
-
-	designTech = data.acf.all_design_tech;
-
-	for (let i = 0; i < (designTech.length) ; i++) {
-	pageContent += `<li class="design-tools-item" id="#${tech[i]}" > ${designTech[i]}</li>`;
-	}
-}
-
-if ((data.acf.all_team_tech).length !== 0){
-	teamTech = data.acf.all_team_tech;
-
-	for (let i = 0; i < (teamTech.length) ; i++) {
-	pageContent += `<li class="team-tools-item" id="#${tech[i]}"  > ${teamTech[i]}</li>`;
-	}
-}
-
-pageContent+= '</ul></div>';
-
-
-
-// hexigon collage 
-// reference: https://codepen.io/yyurtyeri/pen/YzwQddb
-let imageArray = data.acf.insta_posts;
-
-console.log(imageArray);
-if (imageArray){
-
-// pageContent += `<p class="insta-text">${data.acf.insta_call}</p>`;
-
-
-pageContent += `<div class="insta-wrapper">	
-<p class="insta-text">${data.acf.insta_call}</p>
-<div class="collage-container">
-	<div class="collage-content">
-	<div class="collage-toggle" id="collage-toggle" onclick="expand()" >
-		<span class="fa fa-plus" id="add">
-		</span>
-	</div>
-	<div class="collage-menu" id="collage-menu">`;
-
-	for (let singleImage of imageArray){
-
-	pageContent += `
-		<div class="collage-item">
-		<a target="_blank" href="${singleImage.post_url}" >
-		<img id="${singleImage.post_url}" src="${singleImage.insta_image}" alt="${singleImage.image_alt}">
-		</a>
-		</div>`
-	}
-
-	pageContent += `
-	</div>
-	</div>
-	</div>`
-
-}
-
-
-pageContent += `
-</div>
-</div>
-</div>
-`;
-
-// content wrapper
-pageContent += `
-</div>`;
+		  <h1>${data.acf.about_intro}</h1>
+		  <div class="about-text">${data.acf.description}</div>
+	  `;
+	
+	  pageContent += `
+		<div class="hexagon">
+		  <img class="self-image" src="${data.acf.image_myself}" alt="girl standing with nature background">
+		</div>
+	  `;
+	
+	  let tech = [];
+	  let teamTech = [];
+	  let designTech = [];
+	
+	  pageContent += '<div class="all-tools-wrapper"><h2>Skills</h2><ul class="tools-used">';
+	
+	  if (data.acf.all_tech.length !== 0) {
+		tech = data.acf.all_tech;
+		for (let i = 0; i < tech.length; i++) {
+		  pageContent += `<li class="tech-tools-item" id="#${tech[i]}">${tech[i]}</li>`;
+		}
+	  }
+	
+	  if (data.acf.all_design_tech.length !== 0) {
+		designTech = data.acf.all_design_tech;
+		for (let i = 0; i < designTech.length; i++) {
+		  pageContent += `<li class="design-tools-item" id="#${tech[i]}">${designTech[i]}</li>`;
+		}
+	  }
+	
+	  if (data.acf.all_team_tech.length !== 0) {
+		teamTech = data.acf.all_team_tech;
+		for (let i = 0; i < teamTech.length; i++) {
+		  pageContent += `<li class="team-tools-item" id="#${tech[i]}">${teamTech[i]}</li>`;
+		}
+	  }
+	
+	  pageContent += '</ul></div>';
+	
+	  let imageArray = data.acf.insta_posts;
+	
+	  console.log(imageArray);
+	  if (imageArray) {
+		pageContent += `
+		  <div class="insta-wrapper">
+			<p class="insta-text">${data.acf.insta_call}</p>
+			<div class="collage-container">
+			  <div class="collage-content">
+				<div class="collage-toggle" id="collage-toggle" tabindex="0" onkeydown="expand(event)" onclick="expand(event)">
+				  <span class="fa fa-plus" id="add"></span>
+				</div>
+				<div class="collage-menu" id="collage-menu">
+		`;
+	
+		for (let singleImage of imageArray) {
+		  pageContent += `
+			<div class="collage-item">
+			  <a tabindex="-1" target="_blank" href="${singleImage.post_url}">
+				<img id="${singleImage.post_url}" src="${singleImage.insta_image}" alt="${singleImage.image_alt}">
+			  </a>
+			</div>
+		  `;
+		}
+	
+		pageContent += `
+				</div>
+			  </div>
+			</div>
+		  </div>
+		`;
+	  }
+	
+	  pageContent += `
+		</div>
+		</div>
+		</div>
+	  `;
+	
+	  pageContent += `
+		</div>
+	  `;
+	
 
 
 
@@ -359,42 +332,6 @@ pageContent += `
 		mainEl.innerHTML = pageContent;
 
 		update_event_listener();
-
-	}
-
-
-	// Add next/prev navigation for Posts only
-	if ( data.previous_post || data.next_post ) {
-
-		output_featured_image( data );
-
-		console.log(data);
-
-		// Create variables
-		let prevLink = '',
-			nextLink = '';
-
-		// Check if a Previous Post exists
-		if ( data.previous_post ) {
-			prevLink = `<a class="prev-post" href="#${data.previous_post['slug']}" data-endpoint="posts/${data.previous_post['id']}?_embed" data-postid="${data.previous_post['id']}">Previous: ${data.previous_post['title']}</a>`;
-		}
-
-		// Check if a Next Post exists
-		// *** ADD YOUR CODE HERE ***
-		if ( data.next_post ) {
-		console.log('hello');
-
-			nextLink = `<a class="next-post" href="#${data.next_post['slug']}" data-endpoint="posts/${data.next_post['id']}?_embed" data-postid="${data.next_post['id']}">Next: ${data.next_post['title']}</a>`;
-		}
-
-
-		// Output Navigation
-		mainEl.innerHTML += `
-		<nav class="posts-navigation">
-			${prevLink}
-			${nextLink}
-		</nav>
-		`;
 
 	}
 
@@ -532,7 +469,7 @@ function wp_output_single_work( data ) {
 	pageContent += `</a><p>${data.acf.general_description}</p>`;
 
 	//reference: https://codepen.io/alexander-albul/pen/NBBaxw
-	pageContent += `<a target="_blank" href="${data.acf.link_to_project}" class="btn btn_live">Live<span class="live-icon"></span></a>`;
+	pageContent += `<a target="_blank" rel="noopener" href="${data.acf.link_to_project}" class="btn btn_live">Live<span class="live-icon"></span></a>`;
 
 	pageContent += `</div></div></article>`;
 

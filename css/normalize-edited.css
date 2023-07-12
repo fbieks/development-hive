@@ -408,22 +408,23 @@ video {
 }
 
 .screen-reader-text:focus {
-	background-color: #ffffff;
-	border-radius: 3px;
-	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto !important;
-	clip-path: none;
-	color: #1a1919;
-	display: block;
-	font-size: 0.875rem;
-	font-weight: 700;
-  left: 45%;
-	height: auto;
-	line-height: normal;
-	padding: 15px 23px 14px;
-	text-decoration: none;
-	top: 5px;
-	width: auto;
-	z-index: 100000;
+  background-color: var(--accent-orange);
+  border-radius: 3px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  clip-path: none;
+  color: #1a1919;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  left: 0;
+  right: 0;
+  height: auto;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  z-index: 100000;
   margin: 0 auto;
+  width: fit-content;
 }

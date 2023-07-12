@@ -331,6 +331,7 @@ a:focus {
 	justify-content: center;
 	border: 1px solid #000;
 	transition: 0.4s;
+	left: 0;
 }
 
 .before-bar,
@@ -418,6 +419,46 @@ a:focus {
 	font-size: 1.1rem;
 }
 
+
+#email-link, 
+#github-link {
+	padding: 0;
+    width: fit-content;
+    height: 2rem;
+	display: flex;
+	align-items: center;
+	clip-path: inset;
+	background-color: var(--background-yellow);
+	justify-content: center;
+	color: #000;
+	font-size: 1.1rem;
+	transform: rotate(180deg);
+	margin: 0 0 1rem;
+	background: none;
+}
+
+#email-link a, 
+#github-link a {
+	background: none;
+	fill: var(--background-yellow);
+}
+
+@media (min-width:45em) {
+
+	#email-link a, 
+	#github-link a {
+	background: none;
+	fill: #000;
+}
+
+}
+
+#email-link svg, 
+#github-link svg {
+}
+
+
+
 @media (min-width: 60em) {
 
 	.mobile-nav li a  {
@@ -470,6 +511,7 @@ a:focus {
 		transition: none;
 		background: #00000000;
 		right: 0.5rem;
+		top: 4vh;
 	}
 
 
