@@ -93,6 +93,8 @@ function wp_rest_api_call(e) {
 					setTimeout(() => {
 
 						hideLoadingIcon();
+
+                        handleScrollAnimation();
 						
 					}, 600);
 
@@ -157,7 +159,7 @@ function wp_output_single(data) {
 
                         // Output WORK posts
                         pageContent += `
-								<article id="post-${post.id}">
+								<article id="post-${post.id}" class="animate-element" >
 								<a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
 								<h2>
 								${post.title.rendered}
@@ -315,7 +317,7 @@ function wp_output_work(data) {
 
         // Output Blog posts
         pageContent += `
-				<article id="post-${post.id}">
+				<article id="post-${post.id}" class="animate-element" >
                 <a href="#${post.slug}" data-endpoint="feb-work/${post.id}?_embed" data-postid="${post.id}">
                 <h2>
                 ${post.title.rendered}
@@ -366,6 +368,9 @@ function wp_output_work(data) {
 
 	setTimeout(() => {
 		mainEl.innerHTML = pageContent;
+
+
+        handleScrollAnimation();
 		
 		update_event_listener();
 
@@ -487,39 +492,6 @@ function output_featured_image(data) {
 
         // Delete the <figure> element if no Featured Image
         figureElement.remove();
-
-    }
-
-}
-
-// output about image
-function output_about_image(data) {
-
-
-    // if ( data.featured_media ) {
-    if (data.acf.image_myself) {
-
-        // Output the Featured Image if one exists
-
-        let featuredImage = data.acf.image_myself;
-        let imgWidth = featuredImage.width;
-        let imgHeight = featuredImage.height;
-        imgElement = `
-		<img class="self-image"
-		
-		src="${featuredImage.url}" 
-			 width="${imgWidth}"
-			 height="${imgHeight}"
-			 alt="${featuredImage.alt}"
-			 srcset="${featuredImage.url} ${imgWidth}w, 
-			 ${featuredImage.sizes.large} 1024w,
-			 ${featuredImage.sizes.medium_large} 768w,
-			 ${featuredImage.sizes.medium} 300w"
-			 sizes="(max-width: ${imgWidth}) 100vw, ${imgWidth}px">
-		`;
-
-        pageContent += imgElement;
-
 
     }
 

@@ -771,7 +771,7 @@
   
   .about-text {
 	margin: 0 auto 2rem;
-	padding: 0 1rem;
+	padding: 0 1.5rem;
 	max-width: 30rem;
   }
   
@@ -780,6 +780,8 @@
 	height: 100%;
 	object-fit: cover;
 	clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+	animation: fadeIn;
+	animation-duration: 1.7s;
   }
   
   .about-wrapper .all-tools-wrapper .tools-used {
@@ -890,10 +892,9 @@
   /* full collage content + text */
   
   .shake {
-	animation: shake-animation 5s ease infinite;
-	/* transform-origin: 50% 50%; */
-	animation-delay: 0.1s;
+	animation: shake-animation 6s infinite;
   }
+
   .element {
 	margin: 0 auto;
 	width: 150px;
@@ -906,25 +907,25 @@
 	  transform: translateY(0);
 	}
 	12.5% {
-	  transform: translateY(5px);
+	  transform: translateY(8px);
 	}
 	25% {
 	  transform: translateY(0);
 	}
 	37.5% {
-	  transform: translateY(5px);
+	  transform: translateY(8px);
 	}
 	50% {
 	  transform: translateY(0);
 	}
 	62.5% {
-	  transform: translateY(5px);
+	  transform: translateY(8px);
 	}
 	75% {
 	  transform: translateY(0);
 	}
 	100% {
-	  transform: translateY(0);
+	  transform: translateY(8px);
 	}
   }
   
@@ -1122,6 +1123,22 @@
 	height: fit-content;
 	position: relative;
   }
+
+  .all-work-wrapper article{
+	position: relative;
+
+  }
+
+  /* single work animation */
+  .animate-element {
+	opacity: 0; 
+	transition: opacity 1.3s;
+  }
+
+  .animate-element.animate {
+	opacity: 1;
+  }
+  
   
   .work-wrapper article,
   .container article {

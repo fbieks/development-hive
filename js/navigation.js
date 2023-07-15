@@ -31,18 +31,19 @@
     }
   });
 
+
 // Close the mobile navigation when clicking outside the menu
 document.addEventListener('click', (event) => {
-  const target = event.target;
+  let target = event.target;
   isMenuOpen = !mobileNav.classList.contains('hide');
 
   if (
     isMenuOpen &&
     !mobileNav.contains(target) &&
     !hamburgerMenu.contains(target) &&
-    window.innerWidth < 720
-  ) {
-
+    window.innerWidth < 960
+  ) 
+  {
     isMenuOpen = false;
     hamburgerMenu.classList.remove('change');
     mobileNav.classList.add('hide');
@@ -51,6 +52,8 @@ document.addEventListener('click', (event) => {
     disableMenuFocus();
   }
 });
+
+
 
 // Close the mobile navigation when a menu item is clicked
 menuItems.forEach((item) => {
