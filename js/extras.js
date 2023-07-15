@@ -2,7 +2,8 @@
 let homePage = document.querySelector('a[href="#landing"]');
 homePage.click();
 
-// landing / home page
+// landing / home page--------------------------------------------------
+
 // Make scroll btn disappear
 window.addEventListener('scroll', function() {
     let scrollDownBtn = document.querySelector('.explore');
@@ -11,21 +12,21 @@ window.addEventListener('scroll', function() {
     if(scrollDownBtn){
 
       if (window.scrollY > 150) {
-        exploreTitle.classList.add('fade-out');
-        scrollDownBtn.classList.add('fade-out');
+        exploreTitle.classList.add('fade-out-scroll');
+        scrollDownBtn.classList.add('fade-out-scroll');
         scrollDownBtn.classList.add('disable');
       } else {
 
         if(scrollDownBtn.classList.contains('disable')){
-          exploreTitle.classList.remove('fade-out');
-          scrollDownBtn.classList.remove('fade-out');
+          exploreTitle.classList.remove('fade-out-scroll');
+          scrollDownBtn.classList.remove('fade-out-scroll');
           scrollDownBtn.classList.remove('disable');
         }
       }
     }
   });
   
-  // ABOUT PAGE, hexigon collage btn
+  // ABOUT PAGE, hexigon collage btn---------------------------------------
   //reference: https://codepen.io/yyurtyeri/pen/YzwQddb
   
   let j = 0;
@@ -33,6 +34,7 @@ window.addEventListener('scroll', function() {
   function expand(event) {
     let items = document.querySelectorAll('.collage-item');
     let instaText = document.querySelector('.insta-text');
+    let collageContainer = document.querySelector('.collage-content');
     let itemArray = Array.from(items);
 
 
@@ -50,17 +52,17 @@ window.addEventListener('scroll', function() {
     event.preventDefault();
 
     if (j === 0) {
-      
-      console.log(document.querySelectorAll('collage-item'));
+
+      collageContainer.classList.remove("shake");
   
       document.getElementById("add").style.transform = 'rotate(45deg)';
       document.getElementById("collage-menu").style.transform = 'scale(1)';
-      itemArray[0].style.transform = 'translateY(-180px)';
-      itemArray[1].style.transform = 'translate(160px,-90px)';
-      itemArray[2].style.transform = 'translate(160px,90px)';
-      itemArray[3].style.transform = 'translateY(180px)';
-      itemArray[4].style.transform = 'translate(-160px,90px)';
-      itemArray[5].style.transform = 'translate(-160px,-90px)';
+      itemArray[0].style.transform = 'scale(1.2) translateY(-180px)';
+      itemArray[1].style.transform = 'scale(1.2) translate(160px,-90px)';
+      itemArray[2].style.transform = 'scale(1.2) translate(160px,90px)';
+      itemArray[3].style.transform = 'scale(1.2) translateY(180px)';
+      itemArray[4].style.transform = 'scale(1.2) translate(-160px,90px)';
+      itemArray[5].style.transform = 'scale(1.2) translate(-160px,-90px)';
 
       itemArray.forEach(setIndex);
   
@@ -68,8 +70,10 @@ window.addEventListener('scroll', function() {
       instaText.classList.add("fade-out");
   
       j = 1;
-    } else {
+    } 
+    else {
       instaText.classList.remove("fade-out");
+      collageContainer.classList.add("shake");
       itemArray.forEach(setIndex);
   
       document.getElementById("add").style.transform = 'rotate(0deg)';
@@ -85,4 +89,64 @@ window.addEventListener('scroll', function() {
       instaText.classList.add("fade-in");
     }
   }
+}
+
+
+// displaying hexigon images
+function output_collage( data ) {
+
+	if ( data.acf.insta_posts ) {
+
+    pageContent += `
+    <div class="insta-wrapper">
+    <p class="insta-text">${data.acf.insta_call}</p>
+    <div class="collage-container">
+      <div class="collage-content shake">
+      <div class="collage-toggle " id="collage-toggle" tabindex="0" onkeydown="expand(event)" onclick="expand(event)">
+        <span class="fa fa-plus" id="add"></span>
+      </div>
+      <div class="collage-menu" id="collage-menu">
+  `;
+
+		let instaArray = data.acf.insta_posts;
+
+
+    for (let i = 0; i < instaArray.length; i++) {
+
+      let singleImage = instaArray[i].insta_image;       
+
+      pageContent += `
+			<div class="collage-item">
+			  <a tabindex="-1" target="_blank" href="${instaArray[i].post_url}">`;
+
+    
+		let imgWidth = singleImage.width;
+		let imgHeight = singleImage.height;
+		let imgElement = `
+		      <img
+		      src="${singleImage.url}" 
+		      	 width="${imgWidth}"
+		      	 height="${imgHeight}"
+		      	 alt="${singleImage.alt}"
+		      	 srcset="${singleImage.url} ${imgWidth}w, 
+		      	 ${singleImage.sizes.large} 1024w,
+		      	 ${singleImage.sizes.medium_large} 768w,
+		      	 ${singleImage.sizes.medium} 300w"
+		      	 sizes="(max-width: ${imgWidth}) 100vw, ${imgWidth}px">
+		      `;
+
+          pageContent += imgElement;
+          pageContent += `</a></div>`;
+
+    }
+
+    pageContent += `
+    </div>
+    </div>
+  </div>
+  </div>
+`;
+
+	} 
+
 }
