@@ -264,12 +264,14 @@
 
   .home-icon {
 	max-width: 4rem;
+	width: 4rem;
     display: block;
     position: absolute;
     left: 0;
     right: 0;
 	top: 0;
-    margin: 1rem auto;
+    margin: 0 auto;
+	padding: 1rem 0 0;
   }
 
   @media (min-width: 960px) {
@@ -622,7 +624,6 @@
 	width: 100%;
 	align-items: baseline;
 	align-items: center;
-	margin-bottom: 3rem;
   }
   
   .container article {
@@ -646,6 +647,7 @@
   #sec-1 {
   }
   #sec-2 {
+	margin: 3rem 0;
   }
   
   .explore {
