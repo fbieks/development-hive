@@ -29,7 +29,6 @@
 	--accent-darker-red: #ff7c35;
 	--accent-grey: #535353;
   
-	/* --background-yellow: #fffdd5; */
 	--background-yellow: #ffe462;
   }
   /* Typography
@@ -127,7 +126,7 @@
 	background-color: var(--background-yellow);
   }
   
-  /* background diagonal line */
+  /* background diagonal line ---------------------------*/
   .back-line {
 	position: fixed;
 	width: 49rem;
@@ -219,7 +218,7 @@
 	}
   }
   
-  /* Tools */
+  /* Tools ------------------------------------------- */
   .tools-used {
 	list-style: none;
 	padding: 0;
@@ -262,6 +261,26 @@
 	background: #7fff9f;
 	box-shadow: -5px 3px #4df979;
   }
+
+  .home-icon {
+	max-width: 4rem;
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+	top: 0;
+    margin: 1rem auto;
+  }
+
+  @media (min-width: 960px) {
+	
+	.home-icon{
+		display: none;
+		visibility: hidden;
+	}
+
+  }
+
   
   /* Links
   --------------------------------------------- */
@@ -309,7 +328,7 @@
 	position: absolute;
 	width: 100%;
 	height: 5.5px;
-	background-color: var(--background-yellow);
+	background-color: var(--accent-orange);
 	margin: 6px auto;
 	transition: 0.4s;
 	border-radius: 1rem;
@@ -1239,7 +1258,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0;
+	margin: 3rem 0 0;
 	min-height: 100vh;
 	justify-content: center;
   }
