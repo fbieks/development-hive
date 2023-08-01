@@ -1,8 +1,45 @@
-// Load Blog Posts on initial page load
+
+
+// landing / home page--------------------------------------------------
+
 let homePage = document.querySelector('a[href="#landing"]');
 homePage.click();
 
-// landing / home page--------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  setTimeout(initialLoad, 3000);
+
+  function initialLoad(){
+
+    let createdTitle = document.querySelector('.created-by');
+    let cubeTitle = document.getElementById('cube');
+
+    
+  if(createdTitle){
+
+    rotateElement(cubeTitle);
+
+  }
+    
+  }
+
+  function rotateElement(cubeTitle) {
+
+
+      cubeTitle.style.opacity = 1;
+
+      setTimeout(()=>{
+        cubeTitle.classList.add("rotate-e");
+      }, 3500);
+  
+  }
+  
+});
+
+
+
+
 
 // Make scroll btn disappear
 window.addEventListener('scroll', function() {
@@ -25,8 +62,10 @@ window.addEventListener('scroll', function() {
       }
     }
   });
+
   
-  // ABOUT PAGE----------------------------------------------------------------
+  
+  // ABOUT PAGE ----------------------------------------------------------------
 
   // output about image
 function output_about_image(data) {
@@ -188,12 +227,11 @@ function output_collage( data ) {
 // work animation when element comes into view
 function isElementInViewport(el) {
   let rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
+  let windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  // Calculate the bottom quarter mark of the window height
+  let bottomQuarterWindow = windowHeight - (windowHeight / 4);
+  // Check if the top of the element is above or at the bottom quarter mark of the window height
+  return rect.top <= bottomQuarterWindow;
 }
 
 function handleScrollAnimation() {
@@ -201,11 +239,17 @@ function handleScrollAnimation() {
 
   for (let i = 0; i < elements.length; i++) {
     let element = elements[i];
+    console.log(element);
     if (isElementInViewport(element)) {
       element.classList.add('animate');
     }
   }
 }
 
+
+// Run the animation check on page load
+window.addEventListener('load', handleScrollAnimation);
+// Run the animation check on scroll and focus events
 window.addEventListener('scroll', handleScrollAnimation);
 window.addEventListener('focus', handleScrollAnimation);
+
