@@ -131,8 +131,14 @@ function wp_output_single(data) {
 			<div class='landing-title'>
 				<h1 >${data.acf.website_intro}
 				</h1>
-				<p >${data.acf.created_by}
+                <span class='cube' id='cube'>
+                <span class='flip'>
+				<p class='created-by'>${data.acf.created_by}
 				</p>
+                </span>
+                <span class='flip'>
+                </span>
+                </span>
 				</div>
 				<div class="explore-wrapper fade-in-scroll">
 					<h2 class="explore-title" >Explore</h2>
@@ -166,11 +172,14 @@ function wp_output_single(data) {
 								</h2>
 							`;
 
+
+                        // Output the Featured Image
+                        output_featured_image(post);    
+
                         let displayTools = [];
                         let designTech = post.acf.design_tech_used;
                         let teamTech = post.acf.team_tech_used;
                         let techUsed = post.acf.tech_used;
-
 
                         if ((post.acf.display_tools).length !== 0) {
 
@@ -195,8 +204,6 @@ function wp_output_single(data) {
                             pageContent += `</ul> `;
                         }
 
-                        // Output the Featured Image
-                        output_featured_image(post);
 
                         pageContent += '</a></article>';
 
@@ -324,6 +331,9 @@ function wp_output_work(data) {
                 </h2>
 			`;
 
+        // Output the Featured Image
+        output_featured_image(post);
+
         let displayTools = [];
         let designTech = post.acf.design_tech_used;
         let teamTech = post.acf.team_tech_used;
@@ -352,9 +362,6 @@ function wp_output_work(data) {
 
             pageContent += `</ul> `;
         }
-
-        // Output the Featured Image
-        output_featured_image(post);
 
         pageContent += '</a></article>';
 
